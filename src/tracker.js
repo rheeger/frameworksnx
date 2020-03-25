@@ -49,7 +49,10 @@ class Tracker extends React.Component {
     try {
       const results = await Promise.all([
         snxjs.SynthetixState.issuanceRatio(),
-        snxjs.Depot.contract.usdToSnxPrice(blockOptions),
+        snxjs.ExchangeRates.contract.rateForCurrency(
+          formatBytes32String("SNX"),
+          blockOptions
+        ),
         snxjs.Synthetix.contract.transferableSynthetix(account, blockOptions),
         snxjs.Synthetix.contract.collateral(account, blockOptions),
         snxjs.Synthetix.contract.collateralisationRatio(account, blockOptions),
@@ -121,19 +124,15 @@ class Tracker extends React.Component {
     );
     console.log(balances);
     const balancesEffective = await Promise.all(
-      availableSynths.map(({ name }, i) => {
-        if (balances[i]._hex !== "0x00") {
-          snxjs.ExchangeRates.contract.effectiveValue(
-            formatBytes32String(name),
-            balances[i],
-            formatBytes32String("sUSD"),
-            blockOptions
-          );
-        }
-        return null;
-      })
+      availableSynths.map(({ name }, i) =>
+        snxjs.ExchangeRates.contract.effectiveValue(
+          formatBytes32String(name),
+          balances[i],
+          formatBytes32String("sUSD"),
+          blockOptions
+        )
+      )
     );
-
     const balancesInUSD = balancesEffective.map(snxjs.utils.formatEther);
 
     const totalInPortfolio = balancesInUSD.reduce(

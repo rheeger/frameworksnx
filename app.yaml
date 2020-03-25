@@ -1,17 +1,4 @@
 # [START runtime]
-runtime: nodejs
-env: flex
+runtime: nodejs10
+env: standard
 # [END runtime]
-
-# [START handlers]
-handlers:
-  - url: /
-    static_files: build/index.html
-    upload: build/index.html
-    secure: always
-    redirect_http_response_code: 301
-  - url: /
-    static_dir: build
-    secure: always
-    redirect_http_response_code: 301
-  # [END handlers]
