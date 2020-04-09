@@ -6,7 +6,7 @@ import { SynthetixJs } from "synthetix-js";
 class Tracker extends React.Component {
   state = {
     input: "",
-    fromBlock: ""
+    fromBlock: "",
   };
 
   renderWhaleGif() {
@@ -24,7 +24,7 @@ class Tracker extends React.Component {
       provider: new ethers.providers.InfuraProvider(
         "homestead",
         "d27bf022ad564cce85ba9c3a328d00b8"
-      )
+      ),
     });
     console.log("provider established" + Object.keys(snxjs));
     const { formatBytes32String } = SynthetixJs.utils;
@@ -62,7 +62,7 @@ class Tracker extends React.Component {
           formatBytes32String("sUSD"),
           blockOptions
         ),
-        snxjs.FeePool.contract.feesAvailable(account, blockOptions)
+        snxjs.FeePool.contract.feesAvailable(account, blockOptions),
       ]);
       const [
         usdToSnxPrice,
@@ -71,8 +71,8 @@ class Tracker extends React.Component {
         collateralRatio,
         sUSDBalance,
         debtBalance,
-        [currentFeesAvailable, currentRewardsAvailable]
-      ] = results.map(input =>
+        [currentFeesAvailable, currentRewardsAvailable],
+      ] = results.map((input) =>
         Array.isArray(input)
           ? input.map(snxjs.utils.formatEther)
           : snxjs.utils.formatEther(input)
@@ -146,7 +146,7 @@ class Tracker extends React.Component {
           synthKey: name,
           balanceOf: snxjs.utils.formatEther(balances[i]),
           balanceInUSD: balancesInUSD[i],
-          percentage: balancesInUSD[i] / totalInPortfolio
+          percentage: balancesInUSD[i] / totalInPortfolio,
         };
       })
       .filter(({ balanceOf }) => Number(balanceOf) > 0);
@@ -188,7 +188,7 @@ class Tracker extends React.Component {
           <input
             name="fromBlock"
             placeholder="Block number (leave blank for latest)"
-            onChange={event =>
+            onChange={(event) =>
               this.onInputChange(event.target.value, "fromBlock")
             }
           />
@@ -197,7 +197,9 @@ class Tracker extends React.Component {
           <input
             name="address"
             placeholder="Enter Ethereum Address"
-            onChange={event => this.onInputChange(event.target.value, "input")}
+            onChange={(event) =>
+              this.onInputChange(event.target.value, "input")
+            }
           />
           <button onClick={this.renderLookup}>Submit</button>
         </p>
