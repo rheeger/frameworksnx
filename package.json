@@ -12,7 +12,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.3.1",
     "serve": "^11.3.0",
-    "synthetix-js": "^2.21.0"
+    "synthetix-js": "^2.102.0"
   },
   "scripts": {
     "start": "serve -s build",
